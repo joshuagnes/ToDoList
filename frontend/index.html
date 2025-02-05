@@ -39,6 +39,23 @@
             <ul id="todo-list"></ul>
         </div>
     </div>
+
+    <div id="edit-todo-form" style="display: none;">
+        <h2>Edit Todo</h2>
+        <form id="edit-form">
+          <input type="hidden" id="edit-todo-id">
+          <input type="text" id="edit-todo-title" required>
+          <textarea id="edit-todo-description" required></textarea>
+          <label>
+            <input type="checkbox" id="edit-todo-completed">
+            Completed
+          </label>
+          <button type="submit">Save Changes</button>
+          <button type="button" onclick="document.getElementById('edit-todo-form').style.display='none'">Cancel</button>
+        </form>
+      </div>
+      
+      
     
     <script src="app.js"></script>
 </body>

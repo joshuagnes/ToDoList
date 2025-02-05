@@ -1,4 +1,5 @@
 const API_URL = 'http://localhost:3000';
+let todos = []; // Global variable to store todos
 
 // Helper function to set a cookie
 function setCookie(name, value, days) {
@@ -123,23 +124,23 @@ document.getElementById('todo-form').addEventListener('submit', async (e) => {
 // Load and display todos
 async function loadTodos() {
   try {
-    const todos = await apiRequest('/todos');
+    todos = await apiRequest('/todos');
     console.log('Loaded todos:', todos);
     const todoList = document.getElementById('todo-list');
     todoList.innerHTML = '';
 
     todos.forEach((todo) => {
+      console.log(`Adding todo with ID: ${todo.id}`);
       const li = document.createElement('li');
       li.innerHTML = `
-                <h3 class="${todo.completed ? 'completed' : ''}">${
-        todo.title
-      }</h3>
-                <p>${todo.description}</p>
-                <button onclick="toggleTodo(${todo.id}, ${!todo.completed})">
-                    ${todo.completed ? 'Undo' : 'Complete'}
-                </button>
-                <button onclick="deleteTodo(${todo.id})">Delete</button>
-            `;
+        <h3 class="${todo.completed ? 'completed' : ''}">${todo.title}</h3>
+        <p>${todo.description}</p>
+        <button onclick="toggleTodo(${todo.id}, ${!todo.completed})">
+          ${todo.completed ? 'Undo' : 'Complete'}
+        </button>
+        <button onclick="editTodo(${todo.id})">Edit</button>
+        <button onclick="deleteTodo(${todo.id})">Delete</button>
+      `;
       todoList.appendChild(li);
     });
   } catch (error) {
@@ -147,6 +148,7 @@ async function loadTodos() {
     alert('Failed to load todos: ' + error.message);
   }
 }
+
 
 // Toggle todo completion status
 async function toggleTodo(id, completed) {
@@ -170,6 +172,46 @@ async function deleteTodo(id) {
   }
 }
 
+// Edit todo
+function editTodo(id) {
+  console.log('Editing todo with id:', id);
+  console.log('Current todos:', todos);
+  
+  const todo = todos.find((t) => t.id === id);
+  
+  if (todo) {
+    console.log('Found todo:', todo);
+    document.getElementById('edit-todo-id').value = todo.id;
+    document.getElementById('edit-todo-title').value = todo.title;
+    document.getElementById('edit-todo-description').value = todo.description;
+    document.getElementById('edit-todo-completed').checked = todo.completed;
+    document.getElementById('edit-todo-form').style.display = 'block';
+  } else {
+    console.error('Todo not found for id:', id);
+    console.log('Available todo IDs:', todos.map(t => t.id));
+    alert('Failed to load todo for editing: Todo not found');
+  }
+}
+
+
+// Handle edit form submission
+document.getElementById('edit-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const id = document.getElementById('edit-todo-id').value;
+  const title = document.getElementById('edit-todo-title').value;
+  const description = document.getElementById('edit-todo-description').value;
+  const completed = document.getElementById('edit-todo-completed').checked;
+
+  try {
+    await apiRequest(`/todos/${id}`, 'PUT', { title, description, completed });
+    document.getElementById('edit-todo-form').style.display = 'none';
+    loadTodos();
+  } catch (error) {
+    console.error('Update todo error:', error);
+    alert('Failed to update todo: ' + error.message);
+  }
+});
+
 // Show todo app and hide auth forms
 function showTodoApp() {
   document.getElementById('auth-forms').style.display = 'none';
@@ -181,6 +223,8 @@ function showTodoApp() {
 function showAuthForms() {
   document.getElementById('auth-forms').style.display = 'block';
   document.getElementById('todo-app').style.display = 'none';
+  document.getElementById('edit-todo-form').style.display = 'none'; // Hide edit form
+  document.getElementById('edit-form').reset(); // Reset the form
 }
 
 // Check if user is already logged in on page load

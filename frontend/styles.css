@@ -1,29 +1,26 @@
 body {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  line-height: 2;
-  color: black;
-  background-color:#cfc7dbc1;
+  line-height: 1.6;
+  color: #333;
+  background-color: #cfc7dbc1;
   margin: 0;
   padding: 0;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 #app {
   max-width: 800px;
   margin: 2rem auto;
   padding: 2rem;
-  background-color: #d0cfdb;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-
 }
-
 
 h1 {
   text-align: center;
   color: #2c3e50;
   margin-bottom: 2rem;
-  
 }
 
 h2 {
@@ -31,13 +28,14 @@ h2 {
   margin-bottom: 1rem;
 }
 
-/* Form*/
+/* Form */
 form {
   margin-bottom: 2rem;
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+textarea {
   width: 100%;
   padding: 0.8rem;
   margin-bottom: 1rem;
@@ -53,16 +51,15 @@ button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 button:hover {
-  background-color: #fbfcfd;
-  color: #7f78c4;
+  background-color: #6a63a9;
+  transform: translateY(-2px);
 }
 
-
-/* Todo List*/
+/* Todo List */
 #todo-list {
   list-style-type: none;
   padding: 0;
@@ -79,32 +76,25 @@ button:hover {
 }
 
 #todo-list li h3 {
-  color: rgb(99, 78, 180);
+  color: #634eb4;
   flex: 1;
+  margin: 0;
 }
 
 #todo-list li p {
-  color: black;
+  color: #333;
   flex: 3;
-}
-
-#todo-list li span {
-  flex-grow: 1;
-  margin-right: 1rem;
+  margin: 0 1rem;
 }
 
 #todo-list li button {
-  background-color: hsl(254, 34%, 64%);
+  background-color: #7f78c4;
   margin-left: 0.5rem;
-  align-self: center;
   padding: 0.5rem 0.8rem;
 }
 
 #todo-list li button:hover {
-  background-color: #7a64c3;
-  color: white;
-  transition: 0.5ms;
-
+  background-color: #6a63a9;
 }
 
 /* Completed Todo Style */
@@ -117,11 +107,12 @@ button:hover {
 #auth-forms {
   display: flex;
   justify-content: space-between;
+  gap: 2rem;
 }
 
 #register-form,
 #login-form {
-  width: 60%;
+  flex: 1;
 }
 
 /* Logout Button */
@@ -131,24 +122,37 @@ button:hover {
 }
 
 #logout-btn:hover {
-  background-color: white;
-  color: #e74c3c;
+  background-color: #c0392b;
+}
+
+/* Edit Todo Form */
+#edit-todo-form {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  max-width: 800px;
+  margin: 2rem auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   #app {
-      margin: 1rem;
-      padding: 1rem;
+    margin: 1rem;
+    padding: 1rem;
   }
 
   #auth-forms {
-      flex-direction: column;
+    flex-direction: column;
   }
 
   #register-form,
   #login-form {
-      width: 100%;
-      margin-bottom: 1rem;
+    width: 100%;
+    margin-bottom: 1rem;
   }
 }
